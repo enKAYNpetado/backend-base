@@ -6,6 +6,7 @@ class UserAvatarController {
   async update(request, response) {
     const user_id = request.user.id
     const avatarFilename = request.file.filename
+    console.log(request.file.filename)
 
     const diskStorage = new DiskStorage()
 
