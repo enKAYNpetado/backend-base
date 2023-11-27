@@ -1,11 +1,11 @@
 const { hash, compare } = require("bcryptjs")
 const AppError = require("../utils/AppError")
+
 const sqliteConnection = require("../database/sqlite")
 
 class UsersController {
   async create(request, response) {
     const { name, email, password } = request.body
-    
 
     const database = await sqliteConnection()
     const checkUserExists = await database.get(
@@ -33,7 +33,7 @@ class UsersController {
 
     const database = await sqliteConnection()
     const user = await database.get("SELECT * FROM users WHERE id = (?)", [
-      user_id
+      user_id,
     ])
 
     if (!user) {
@@ -54,7 +54,7 @@ class UsersController {
 
     if (password && !old_password) {
       throw new AppError(
-        "Você informar a senha antiga para definir a nova senha"
+        "Você precisa informar a senha antiga para definir a nova senha."
       )
     }
 
@@ -69,11 +69,10 @@ class UsersController {
     }
 
     await database.run(
-      `
-      UPDATE users SET
-      name = ?,
-      email = ?,
-      password = ?,
+      `UPDATE users SET 
+      name = ?, 
+      email = ?, 
+      password = ?, 
       updated_at = DATETIME('now')
       WHERE id = ?`,
       [user.name, user.email, user.password, user_id]
@@ -84,19 +83,3 @@ class UsersController {
 }
 
 module.exports = UsersController
-
-/*
- * index - GET para listar vários registros.
- * show - GET para exibir um registro específico.
- * create - POST para criar um registro.
- * update - PUT para atualizar o registro.
- * delete - DELETE para remover um registro.
- */
-
-/* if (!name) {
-      throw new AppError("O nome é obrigatório!")
-    }
-
-    response.status(201).json({ name, email, password })*/
-
-//get serve para buscar por informações
